@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+############################################################
+# Mandatory variables
+
+# Path to block flashed device
+device=
+
+hostname=arch
+swap_size=500M
+kernel_options="rw console=ttyS0"
+
+timezone=Europe/Moscow
+locales='
+  en_US.UTF-8
+  ru_RU.UTF-8
+'
+############################################################
+# Optional variables
+user_name=vlad
+user_password=
+root_password=
+additional_packages=
+
+mirrors='
+  https://mirror.yandex.ru/archlinux/$repo/os/$arch
+'

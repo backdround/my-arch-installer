@@ -3,14 +3,12 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
-# Script that configure archlive rootfs
-archlive_rootfs_configure=output/archlive-rootfs-configure.sh
-
 # Build script that configure archlive rootfs
-src/make-rootfs-configure-script.sh "$archlive_rootfs_configure"
+rm -rf ./output
+src/make-rootfs-configure-script.sh ./archlive-installation-script ./output archlive-rootfs-configure.sh
 
 # Bulid archlive image
-export rootfs_configure_script="$archlive_rootfs_configure"
+export rootfs_configure_script="output/archlive-rootfs-configure.sh"
 export kernel_options="rw console=ttyS0"
 ./archlive-builder/run build-live-image
 
