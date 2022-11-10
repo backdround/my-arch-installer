@@ -1,0 +1,3 @@
+[submodule "archlive-builder"]
+	path = archlive-builder
+	url = git@github.com:backdround/archlive-builder.git
