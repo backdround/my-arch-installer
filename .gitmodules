@@ -1,3 +1,6 @@
 [submodule "archlive-builder"]
 	path = archlive-builder
 	url = git@github.com:backdround/archlive-builder.git
+[submodule "archlive-installation-script"]
+	path = archlive-installation-script
+	url = git@github.com:backdround/archlive-installation-script.git
