@@ -28,20 +28,24 @@ cp -rf "$archlive_installation_script" "$new_installation_script_directory"
 cp -f ./installation-config "$new_installation_script_directory/config"
 rm -rf "$new_installation_script_directory/.git"
 
-# Generates rootfs configure script which extracts installation scripts
-build_script_path="$work_directory/$build_script"
-label="$(echo $RANDOM | md5sum | head -c 15)"
-cat > "$build_script_path" <<EOF
-#!/usr/bin/env bash
-set -euo pipefail
 
+build_script_path="$work_directory/$build_script"
+
+# Copies base rootfs configure script
+cp -f ./rootfs-configure.sh "$build_script_path"
+
+# Appends selfextracting script part to rootfs configure script
+injection_label="$(echo $RANDOM | md5sum | head -c 15)"
+cat >> "$build_script_path" <<EOF
 mkdir /root/archlive-installation-scripts
 
 $(declare -f error)
 $(declare -f selfextract)
-selfextract /root/archlive-installation-scripts "$label"
+selfextract /root/archlive-installation-scripts "$injection_label"
 exit 0
 EOF
 
-inject-directory-in-file "$build_script_path" "$new_installation_script_directory" "$label"
+# Injects installation script project in script
+inject-directory-in-file "$build_script_path" "$new_installation_script_directory" "$injection_label"
+
 chmod +x "$build_script_path"
