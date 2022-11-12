@@ -30,3 +30,7 @@ additional_packages=(
 mirrors='
   https://mirror.yandex.ru/archlinux/$repo/os/$arch
 '
+
+post_bash_script="\
+git clone https://github.com/backdround/configuration.git /home/vlad/configuration
+"
