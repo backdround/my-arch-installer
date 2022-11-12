@@ -21,7 +21,11 @@ locales='
 user_name=vlad
 user_password=
 root_password=
-additional_packages=
+additional_packages=(
+  linux-firmware amd-ucode intel-ucode
+  iwd modemmanager
+  git nano tree
+)
 
 mirrors='
   https://mirror.yandex.ru/archlinux/$repo/os/$arch
