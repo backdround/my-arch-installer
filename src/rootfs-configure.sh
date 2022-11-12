@@ -4,8 +4,16 @@ set -euo pipefail
 
 pacman -Sy
 
-# Installs archlive-installation-script requirements
-pacman --needed --noconfirm --cachedir /cache -S dosfstools arch-install-scripts curl
+core_packages=(linux-firmware amd-ucode intel-ucode)
+instllation_script_requirements=(dosfstools arch-install-scripts curl)
+network_packages=(iwd modemmanager)
+utility_packages=(nano tree)
 
-# Gets packages for installation script
-pacman --needed --noconfirm --cachedir /cache -S nano tree
+# Gets packages
+pacman --needed --noconfirm --cachedir /cache -S \
+  "${core_packages[@]}" \
+  "${instllation_script_requirements[@]}" \
+  "${network_packages[@]}" \
+  "${utility_packages[@]}"
+
+systemctl enable iwd
