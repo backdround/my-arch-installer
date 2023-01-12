@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-#error() {
-  #echo "$@" >&2
-  #exit 1
-#}
-
 cd "$(dirname "$0")"
 rm -rf ./output && mkdir ./output
 
@@ -13,6 +8,7 @@ rm -rf ./output && mkdir ./output
 cp -a ./archlive-installation-script ./output/installation-script
 rm -rf ./output/installation-script/.git
 cp -f ./src/os-installation-config ./output/installation-script/config
+cp -f ./src/post-installation-utilities.sh ./output/installation-script/
 
 # Bulid archlive image
 export rootfs_configure_script="src/archlive-configure.sh"
