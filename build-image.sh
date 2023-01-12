@@ -12,10 +12,10 @@ rm -rf ./output && mkdir ./output
 # Prepare installation script.
 cp -a ./archlive-installation-script ./output/installation-script
 rm -rf ./output/installation-script/.git
-cp -f ./src/installation-config ./output/installation-script/config
+cp -f ./src/os-installation-config ./output/installation-script/config
 
 # Bulid archlive image
-export rootfs_configure_script="src/rootfs-configure.sh"
+export rootfs_configure_script="src/archlive-configure.sh"
 export kernel_options="rw console=ttyS0"
 export directory_to_copy="./output/installation-script"
 ./archlive-builder/run build-live-image
