@@ -23,8 +23,7 @@ user_password=
 paswordless_sudo=false
 root_password=
 additional_packages=(
-  linux-firmware amd-ucode intel-ucode
-  iwd modemmanager
+  linux-firmware amd-ucode intel-ucode iwd
   git nano tree jq
 )
 
