@@ -24,6 +24,7 @@ paswordless_sudo=false
 root_password=
 additional_packages=(
   linux-firmware amd-ucode intel-ucode iwd
+  xorg-drivers
   git nano tree jq
 )
 
