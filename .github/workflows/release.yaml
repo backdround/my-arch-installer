@@ -1,0 +1,52 @@
+name: release
+
+on: workflow_dispatch
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout git repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Download latest earthly
+        run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.6.30/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
+      - name: Show version
+        run: earthly --version
+
+      - name: Build
+        run: ./build-image.sh
+
+      - name: Upload live image
+        uses: actions/upload-artifact@v3
+        with:
+          name: live-image
+          path: ./output/live.img
+
+
+  upload-image:
+    needs: build-image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download live-image
+        uses: actions/download-artifact@v3
+        with:
+          name: live-image
+          path: ./artifact
+
+      - name: Create release-tag
+        run: |
+          echo "release_tag=$(date +"%Y-%m-%d.%H-%M-%S")" >> $GITHUB_ENV
+
+      - name: Rename live image
+        run: |
+          mv ./artifact/live.img ./live-${{ env.release_tag }}.img
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.release_tag }}
+          files: |
+            ./live-${{ env.release_tag }}.img
