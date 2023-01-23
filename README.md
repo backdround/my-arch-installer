@@ -14,15 +14,33 @@ installation scripts and corresponding config with my prferences.
 lsblk
 
 # Flash usb
-dd status=progress bs=5M if=./output/live.img of=/dev/%USB_BLOCK_HERE%
+dd status=progress bs=5M if=./output/live.img of=/dev/%USB_BLOCK_DEVICE%
 ```
 
-### Install archlinux
-```bash
-# Boot to live image
+### Install
 
-# Connect to internet
-...
+#### Connect to internet (wifi)
+```bash
+# Check that interface is up by systemd-networkd
+ip a
+
+# Scan networks
+iwctl station %WLAN_IFACE% scan
+
+# List networks
+iwctl station %WLAN_IFACE% get-networks
+
+# Connect with subsequent password input
+iwctl station %WLAN_IFACE% connect %SSID%
+
+# Connect with immediate password input
+iwctl station %WLAN_IFACE% connect %SSID% --passphrase %PASSWORD%
+```
+
+#### Install archlinux
+```bash
+# Check internet connection
+ping google.com
 
 # Go to installation-script
 cd installation-script
