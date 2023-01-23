@@ -25,34 +25,40 @@ root_password=
 additional_packages=(
   linux-firmware amd-ucode intel-ucode iwd
   xorg-drivers
-  git nano tree jq
+  git nano tree dra
 )
 
 mirrors='
   https://mirror.yandex.ru/archlinux/$repo/os/$arch
 '
 
-path_to_copy="./post-installation-utilities.sh"
+path_to_copy=
 
 post_bash_script='\
-set -e
-
 # Mandatory variables
 DEPLOY_CONFIGS_INSTANCE="INSTANCE_HERE"
 USER_PASSWORD_FOR_SUDO="PASSWORD_HERE"
 
-mv /root/post-installation-utilities.sh /tmp
-
 su vlad -c bash <<EOF
 set -e
-source /tmp/post-installation-utilities.sh
+
+error() {
+  echo "$@" >&2
+  return 1
+}
 
 # Clones configuration
 git clone https://github.com/backdround/configuration.git ~/configuration
 cd ~/configuration
 
+# Download deploy-configs
+dra download --select "deploy-configs-linux-amd64-{tag}.tar.gz" backdround/deploy-configs
+tar -xvf ./deploy-configs-linux-amd64-*.tar.gz
+rm -rf ./deploy-configs-linux-amd64-*.tar.gz
+mkdir -p ~/go/bin
+mv deploy-configs ~/go/bin
+
 # Deploys configs
-download-deploy-configs ~/go/bin/
 ~/go/bin/deploy-configs "$DEPLOY_CONFIGS_INSTANCE" || {
   error "Error occurs while deploying configs" || true
 }
